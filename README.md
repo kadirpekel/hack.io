@@ -1,6 +1,7 @@
 hack.io
 =======
-hack.io is a hook.io binding that helps you create your own hooks on the fly.
+hack.io is a hook.io tool written in coffeescript that helps you create and manage
+your own hooks on the fly.
 
 Install
 -------
@@ -12,10 +13,10 @@ $ npm install
 
 Usage
 -----
-hack.io comes with an executable let you hack hook.io in seconds.
+hack.io comes with an executable lets you hack hook.io in seconds.
 
 Create a module that exports hook.io event emitter callback with a filename that maps to an
-event name like shown below.
+event name like shown below. Hook modules can be both written coffeescript or javascript.
 
 ```
 $ echo "module.exports = (name, event, data) -> console.log data" > in.log.coffee
@@ -25,7 +26,7 @@ $ hackio in.log.coffee
 
 That is it, your hook is ready already. Go emit some events with hook.io to fire your hooks.
 
-Take a look at examples.
+Also take a look at examples.
 
 <https://github.com/coffeemate/hack.io/tree/master/examples>
 
