@@ -1,0 +1,15 @@
+{ "readme": "http://github.com/coffeemate/hack.iol#readme"
+, "version": "0.0.1"
+, "description": "hack.io is hook.io unless..."
+, "main": "lib/index.js"
+, "bin": {"hackio": "./lib/index.js"}
+, "author": "Kadir Pekel <kadirpekel@gmail.com>"
+, "name": "hack.io"
+, "engines": { "node": ">=0.4.7" }
+, "dependencies": {"hook.io": ">=0.4.0"}
+, "repository" :
+  {
+    "type": "git"
+  , "url": "http://github.com/coffeemate/hack.io"
+  }
+}
