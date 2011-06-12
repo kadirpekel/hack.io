@@ -1,5 +1,6 @@
+path = require 'path'
+
 Hook = require('hook.io').Hook
-hookio = require 'hook.io'
 
 class HackIO extends Hook
   
@@ -10,6 +11,17 @@ class HackIO extends Hook
       @emit 'inputs.ready'
   
   spawn: (filenames) ->
-    console.log filenames
+    for filename in filenames
+      filepath = path.join process.cwd(), filename
+      try
+        hook = require filepath
+      catch err
+        console.error err
+        console.log "could not import hook: '#{filepath}'"
+        
+      if hook
+        basename = path.basename filepath, path.extname filepath
+        console.log "listening #{basename}"
+        @on basename, hook
 
 exports.HackIO = HackIO
