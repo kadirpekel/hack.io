@@ -3,12 +3,13 @@ hookio = require 'hook.io'
 
 class HackIO extends Hook
   
-  constructor: (@filenames) ->
-    Hook.call @, name: 'hackio', host: 'localhost', port: 5000
+  constructor: (args...) ->
+    Hook.apply @, args
     @connect()
     @on 'ready', () =>
       @emit 'inputs.ready'
   
-  spawn: () ->
+  spawn: (filenames) ->
+    console.log filenames
 
 exports.HackIO = HackIO
