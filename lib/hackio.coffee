@@ -12,16 +12,21 @@ class HackIO extends Hook
   
   spawn: (filenames) ->
     for filename in filenames
-      filepath = path.join process.cwd(), filename
-      try
-        hook = require filepath
-      catch err
-        console.error err
-        console.log "could not import hook: '#{filepath}'"
+      do (filename) =>
+        filepath = path.join process.cwd(), filename
+        try
+          hook = require filepath
+        catch err
+          console.error err
+          console.log "could not import hook: '#{filepath}'"
         
-      if hook
-        basename = path.basename filepath, path.extname filepath
-        console.log "listening #{basename}"
-        @on basename, hook
+        if hook
+          basename = path.basename filepath, path.extname filepath
+          console.log "listening #{basename}"
+        
+          hookbinded = (args...) =>
+            hook.apply @, args
+          
+          @on basename, hookbinded
 
 exports.HackIO = HackIO
