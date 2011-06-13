@@ -47,7 +47,7 @@ $ hackio server hack.io.server -h 'localhost' -p 5000
   hook output started: hack.io.server
 ```
 
-Yay, you hook.io server is running...
+Great, your hook.io server is running...
 
 Let's create a listener.
 
@@ -72,6 +72,15 @@ $ hackio listen i.default.coffee
 That is it, your hook is ready already. Go emit some events.
 Btw as you see, you can create listeners using coffeescript. Yay ;)
 
+Also don't forget that '@/this' refers the hook itself inside callback. You may want to access the container hook
+reference such as below.
+
+``` coffeescript
+module.exports = (name, event, data) ->
+	console.log name, event, data
+	# use '@' to refer the container hook instance
+	@emit "out.anotherevent" "anotherdata"
+```
 
 Emitting events are not different. 
 
