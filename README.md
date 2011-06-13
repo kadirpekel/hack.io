@@ -6,36 +6,88 @@ your own hooks on the fly.
 Install
 -------
 ```
-$ git clone https://coffeemate@github.com/coffeemate/hack.io.git
-$ cd hack.io
-$ npm install
+$ npm install hack.io
 ```
 
 Usage
 -----
 hack.io comes with an executable lets you hack hook.io in seconds.
 
-Create a module that exports hook.io event emitter callback with a filename that maps to an
-event name like shown below. Hook modules can be both written coffeescript or javascript.
+Let's take a shot;
 
 ```
-$ echo "module.exports = (name, event, data) -> console.log data" > in.log.coffee
-$ hackio in.log.coffee
-  listening 'in.log'
+$ hackio
+  command not recognized
 ```
 
-That is it, your hook is ready already. Go emit some events with hook.io to fire your hooks.
+Yes there are some commands you must pass. hackio consists of three fundamental components which maps
+to three commands. These are:
 
-Also take a look at examples.
+ * server (server): starts a hookio server process
+ * listener (listen): starts a hookio event listener process
+ * emitter (emit): starts a hookio event emitter process
 
-<https://github.com/coffeemate/hack.io/tree/master/examples>
+Each command takes some shared optional command line arguments. The pattern is like shown below.
 
-Todo
-----
+```
+$ hackio <command> <name> -h <host> -p <port>
+```
 
- * Add lots of console argument centric options such '$ hackio myhook 127.0.0.1 5001'
- * Add a hook.io server tool such '$ hackio-server 127.0.0.1 5001'
- * Add a hook.io emitter tool such '$ hackio-emit blaevent blabla'
+So starting a hook.io server is damn easy.
+
+```
+$ hackio server
+  hook output started: hack.io.server
+```
+
+This is the same as using the default command line argument values
+
+```
+$ hackio server hack.io.server -h 'localhost' -p 5000
+  hook output started: hack.io.server
+```
+
+Yay, you hook.io server is running...
+
+Let's create a listener.
+
+```
+$ hackio listen
+  I have connected to an output, my name there is: hack.io.listen-0
+```
+
+You created a default listener which listens 'i.default' event to log incoming event data. But there is more...
+
+Listener commands could take filenames as arguments those are modules which exports a hook.io event emitter
+callback. Also these filenames must be the event name that you want to listen.
+
+We may create the default hook listener above manually.
+
+```
+$ echo "module.exports = (name, event, data) -> console.log name, event, data" > i.default.coffee
+$ hackio listen i.default.coffee
+  I have connected to an output, my name there is: i.default.js-0
+```
+
+That is it, your hook is ready already. Go emit some events.
+Btw as you see, you can create listeners using coffeescript. Yay ;)
+
+
+Emitting events are not different. 
+
+```
+$ hackio emit o.default
+  I have connected to an output, my name there is: o.default-0
+```
+
+The 'emit' command also takes an additional argument '-d' that forms to the event data. (TODO: read stdin for event data)
+
+```
+$ hackio emit o.default -d "hookio rocks!"
+  I have connected to an output, my name there is: o.default-0
+```
+
+There is a lot to write, but that is it in brief for now.
 
 Disclaimer
 ----------
