@@ -49,27 +49,44 @@ $ hackio server hack.io.server -h 'localhost' -p 5000
 
 Great, your hook.io server is running...
 
-Let's create a listener.
+Let's create a default listener. 
 
 ```
 $ hackio listen
   I have connected to an output, my name there is: hack.io.listen-0
 ```
 
-You created a default listener which listens 'i.default' event to log incoming event data. But there is more...
+Listener now listens for default event 'i.test' with a default handler
 
-Listener commands could take filenames as arguments those are modules which exports a hook.io event emitter
-callback. Also these filenames must be the event name that you want to listen.
+``` javascript
+function (name, event, data) {
+	console.log(name, event, data);
+}
+```
+
+Listeners takes '-e' argument lets you define which event to listen. For eg.
+
+```
+$ hackio listen -e i.anothertest
+  I have connected to an output, my name there is: hack.io.listen-0
+```
+
+
+There is more...
+
+Listeners could take filenames as arguments those are modules which exports a hook.io event emitter
+callback. Also these filenames must be the event name that you want to listen. If you also defined '-e',
+it will be omitted silently.
 
 We may create the default hook listener above manually.
 
 ```
 $ echo "module.exports = (name, event, data) -> console.log name, event, data" > i.default.coffee
 $ hackio listen i.default.coffee
-  I have connected to an output, my name there is: i.default.js-0
+  I have connected to an output, my name there is: hack.io.listen-0
 ```
 
-That is it, your hook is ready already. Go emit some events.
+That is it, your listener hook is ready already. Go emit some events.
 Btw as you see, you can create listeners using coffeescript. Yay ;)
 
 Also don't forget that '@/this' refers the hook itself inside callback. You may want to access the container hook
@@ -85,16 +102,44 @@ module.exports = (name, event, data) ->
 Emitting events are not different. 
 
 ```
-$ hackio emit o.default
-  I have connected to an output, my name there is: o.default-0
+$ hackio emit
+  I have connected to an output, my name there is: hack.io.emit-0
 ```
 
-The 'emit' command also takes an additional argument '-d' that forms to the event data. (TODO: read stdin for event data)
+Emitters with no arguments publishes an event named 'o.test' after reading event data from stdin.
+You can pipe your other process outputs to emitter easily. That's really cool.
+
+The 'emit' command also takes an additional arguments such '-e' which takes the event name and -d' that forms to
+the event data without reading stdin.
 
 ```
-$ hackio emit o.default -d "hookio rocks!"
-  I have connected to an output, my name there is: o.default-0
+$ hackio emit -e o.foo -d 'bar'
+  I have connected to an output, my name there is: hack.io.emit-0
 ```
+
+Another cool feature is that emitters also take filename arguments those maps to javascript modules. Modules must
+export a callback function which takes the pre-initialized hook reference and returns a emit data. Again filenames
+map to event names such as listener modules.
+
+ A typical emitter module looks like below.
+
+``` javascript
+// o.foo.js
+
+modules.exports = function (hook) {
+	return "bar"
+}
+```
+
+Go fire it.
+```
+$ hackio emit o.foo.js
+  I have connected to an output, my name there is: hack.io.emit-0
+```
+
+That is. You fired an event name 'o.foo' with data 'bar'. What a hack.
+
+--
 
 There is a lot to write, but that is it in brief for now.
 
