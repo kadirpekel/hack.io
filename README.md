@@ -29,7 +29,7 @@ to three commands. These are:
 Each command takes some shared optional command line arguments. The pattern is like shown below.
 
 ```
-$ hackio <command> <name> -h <host> -p <port>
+$ hackio <command> -p <name> -h <host> -p <port>
 ```
 
 So starting a hook.io server is damn easy.
@@ -41,7 +41,7 @@ $ hackio server
 This is the same as using the default command line argument values
 
 ```
-$ hackio server hack.io.server -h 'localhost' -p 5000
+$ hackio server -p hack.io.server -h 'localhost' -p 5000
 ```
 
 Great, your hook.io server is running...
