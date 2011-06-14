@@ -1,5 +1,5 @@
 { "readme": "http://github.com/coffeemate/hack.iol#readme"
-, "version": "0.1.2"
+, "version": "0.1.3"
 , "description": "hack.io is hook.io unless..."
 , "main": "lib/index.js"
 , "bin": {"hackio": "./lib/index.js"}
