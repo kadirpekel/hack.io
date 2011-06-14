@@ -132,6 +132,7 @@ modules.exports = function (hook) {
 ```
 
 Go fire it.
+
 ```
 $ hackio emit o.foo.js
   I have connected to an output, my name there is: hack.io.emit-0
