@@ -66,7 +66,6 @@ Listeners takes '-e' argument lets you define which event to listen. For eg.
 $ hackio listen -e i.anothertest
 ```
 
-
 There is more...
 
 Listeners could take filenames as arguments those are modules which exports a hook.io event emitter
@@ -84,22 +83,22 @@ module.exports = function (name, event, data) {
 }
 ```
 
-Run it with hacki listener.
+Run it with hack.io listener.
 
 ```
-$ hackio listen i.default.coffee
+$ hackio listen i.default.js
 ```
 
 That is it, your listener hook is ready. Go emit some events. Btw you may want writing your modules in coffeescript.
 It is accepted!
 
-Also don't forget that '@/this' refers the hook itself inside callback. You may want to access the container hook
+Also don't forget that 'this' refers the hook itself inside callback. You may want to access the container hook
 reference such as below.
 
 ``` coffeescript
 module.exports = function (name, event, data) {
   console.log(name, event, data);
-  // use '@' to refer the container hook instance
+  // use 'this' to refer the container hook instance
   this.emit("out.anotherevent", "anotherdata");
 }
 ```
